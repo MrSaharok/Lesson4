@@ -61,7 +61,9 @@ def run_main
     run(menu)
   end
 end
-
+ 
+private
+ 
 def select_from_array(array)
   return if array.empty?
   array.each.with_index(1) do |element, index|
@@ -127,7 +129,7 @@ def assign_route_train
   else
     puts 'Choose train to assign the route: '
     select_train = select_from_array(@trains)
-    puts "Choose route to assign #{select_train}"
+    puts "Choose route to assign: #{select_train}"
     select_route = select_from_array(@routes)
     select_train.route = (select_route)
     puts "Train #{select_train} have #{select_route} now."
@@ -191,10 +193,10 @@ def move_train
     case action
     when 1
       select_train.move_forward
-      puts "Current station:#{current_station_index}"
+      puts "Move next station!"
     when 2
       select_train.move_backward
-      puts "Current station: "
+      puts "Move previous station!"
     else
       "Entered option was not found."
     end
