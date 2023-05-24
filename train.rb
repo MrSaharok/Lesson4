@@ -61,8 +61,6 @@ class Train #Поезд
   end
 
   def move_backward # Движение назад
-    current_station.send_train
     @current_station_index -= 1
-    current_station.add_train
   end
 end
