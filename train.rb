@@ -2,7 +2,7 @@ require_relative 'station'
 require_relative 'route'
 
 class Train
-  attr_accessor :number, :type, :wagons, :speed, :route, :current_station_index
+  attr_reader :number, :type, :wagons, :route, :speed, :current_station_index
 
   def initialize(number, type)
     @number = number
@@ -10,6 +10,10 @@ class Train
     @wagons = []
     @speed = 0
     @current_station_index = 0
+  end
+
+  def to_s
+    @number
   end
 
   def speed_up(speed)
@@ -34,33 +38,35 @@ class Train
     end
   end
 
-  def current_station
-    @route.stations[current_station_index]
-  end
-
-  def next_station
-    @route.stations[current_station_index + 1]
-  end
-
-  def previous_station
-    @route.stations[current_station_index - 1]
-  end
-
   def assign_route(route)
     @route = route
     @current_station_index = 0
-    @route.stations[@current_station_index].add_train
+    @route.stations[@current_station_index].add_train(self)
+  end
+
+  def current_station
+    @route.stations[@current_station_index]
+  end
+
+  def next_station
+    @route.stations[@current_station_index + 1]
+  end
+
+  def previous_station
+    @route.stations[@current_station_index - 1]
   end
 
   def move_forward
-    current_station.send_train
+    current_station.send_train(self)
     @current_station_index += 1
-    current_station.add_train
+    current_station.add_train(self)
+    puts "Train:#{self} is current station#{current_station}"
   end
 
   def move_backward
-    current_station.send_train
+    current_station.send_train(self)
     @current_station_index -= 1
-    current_station.add_train
+    current_station.add_train(self)
+    puts "Train:#{self} is current station#{current_station}"
   end
 end
