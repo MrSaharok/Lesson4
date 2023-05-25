@@ -2,7 +2,7 @@ require_relative 'station'
 require_relative 'route'
 
 class Train
-  attr_reader :number, :type, :wagons, :route, :speed, :current_station_index
+  attr_reader :number, :type, :wagons, :routes, :speed, :current_station_index
 
   def initialize(number, type)
     @number = number
@@ -38,22 +38,22 @@ class Train
     end
   end
 
-  def assign_route(route)
-    @route = route
+  def assign_route(routes)
+    @routes = routes
     @current_station_index = 0
-    @route.stations[@current_station_index].add_train(self)
+    @routes.stations[@current_station_index].add_train(self)
   end
 
   def current_station
-    @route.stations[@current_station_index]
+    @routes.stations[@current_station_index]
   end
 
   def next_station
-    @route.stations[@current_station_index + 1]
+    @routes.stations[@current_station_index + 1]
   end
 
   def previous_station
-    @route.stations[@current_station_index - 1]
+    @routes.stations[@current_station_index - 1]
   end
 
   def move_forward
