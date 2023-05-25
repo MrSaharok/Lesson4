@@ -197,6 +197,5 @@ class Main
     end
   end
 end
-
 go = Main.new
 go.run_main
