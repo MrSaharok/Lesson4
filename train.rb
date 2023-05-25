@@ -1,7 +1,7 @@
 require_relative 'station'
 require_relative 'route'
 
-class Train #Поезд
+class Train
   attr_accessor :number, :type, :wagons, :speed, :route, :current_station_index
 
   def initialize(number, type)
@@ -13,40 +13,36 @@ class Train #Поезд
   end
 
   def speed_up(speed)
-    # Увеличение скорости
     @speed += speed if speed <= 0
   end
 
-  def stop # Остановка
+  def stop
     @speed = 0
   end
 
   def relevant_wagon?(wagon)
-    # Проверка на совместимость грузовых и пассажирских
     wagon.type == @type
   end
 
   def add_wagon(wagon)
-    # Добавление вагонов
     @wagons << wagon
   end
 
   def remove_wagons(wagon)
-    #Отсоединение вагонов
     if @speed.nonzero?
       @wagons.delete(wagon)
     end
   end
 
-  def current_station # Текущая станция
+  def current_station
     @route.stations[current_station_index]
   end
 
-  def next_station # Следующая станция
+  def next_station
     @route.stations[current_station_index + 1]
   end
 
-  def previous_station # Предыдущая станция
+  def previous_station
     @route.stations[current_station_index - 1]
   end
 
@@ -56,11 +52,15 @@ class Train #Поезд
     @route.stations[@current_station_index].add_train
   end
 
-  def move_forward # Движение вперед
+  def move_forward
+    current_station.send_train
     @current_station_index += 1
+    current_station.add_train
   end
 
-  def move_backward # Движение назад
+  def move_backward
+    current_station.send_train
     @current_station_index -= 1
+    current_station.add_train
   end
 end
